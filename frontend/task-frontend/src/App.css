@@ -1,0 +1,89 @@
+ 
+form {
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+} 
+.terms-of-service {
+  display: flex;
+}
+
+
+label {
+  padding: .4rem;
+}
+a {
+  text-decoration: none;
+  width: 300px;
+  text-align: center;
+  margin-top: 3rem;
+  color: white;
+  transition: all .3s;
+}
+
+
+
+a:hover {
+  transition: all .3s;
+  color: rgb(174, 167, 167);
+}
+/* 
+a:visited {
+  color: white;
+} */
+
+.taken-email {
+  color: red;
+}
+
+#checkbox {
+  width: 200px;
+  text-align: center;
+}
+
+select {
+  width: 300px;
+  height: 45px;
+}
+
+input {
+  border-radius: 15px;
+  padding: 0.5rem;
+}
+body {
+  min-height: 100vh;
+  display: grid;
+  font-family: 'Poppins';
+  background: #3c3e44;
+  color: white;
+  place-items: center;
+  font-weight: 600;
+}
+
+#text-box{
+  width: 300px;
+  height: 25px;
+}
+
+#country-label {
+  text-align: center;
+}
+
+button {
+  margin: 2rem 0rem 2rem 0rem;
+  padding: 1rem 3rem 1rem 3rem;
+  font-family: 'Poppins';
+  border: none;
+  font-size: 20px;
+  transition: all .3s;
+  border-radius: 15px;
+}
+
+button:hover {
+  transition: all .3s;
+  background: #7f8593;
+  color: white;
+}
