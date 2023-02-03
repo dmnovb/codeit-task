@@ -52,6 +52,7 @@ select {
 input {
   border-radius: 15px;
   padding: 0.5rem;
+  font-size: 1.5rem;
 }
 body {
   min-height: 100vh;
@@ -86,4 +87,9 @@ button:hover {
   transition: all .3s;
   background: #7f8593;
   color: white;
+}
+
+.login-error-message {
+  width: 300px;
+  text-align: center;
 }

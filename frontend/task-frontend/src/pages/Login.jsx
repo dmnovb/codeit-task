@@ -49,7 +49,7 @@ const handleLogin = (e) => {
             <input id='text-box' value={password} type="password" onChange={(e) => setPassword(e.target.value) } required/>
             <button onClick={handleLogin} type='submit'>Submit</button>
             {
-                err.hasError && <div>{err.message}</div>
+                err.hasError && <div className='login-error-message'>{err.message}</div>
             }
         </form>
         </div>

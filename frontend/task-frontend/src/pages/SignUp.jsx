@@ -74,7 +74,7 @@ const SignUp = () => {
             </select> 
             }
             <label htmlFor="">Date of birth</label>
-            <input type="date" id='text-box' value={dateOfBirthState} onChange={(e) => setDateOfBirthState(e.target.value)}/>
+            <input type="date" id='text-box' required value={dateOfBirthState} onChange={(e) => setDateOfBirthState(e.target.value)}/>
             <button type='submit'>Submit</button>
             <div className='terms-of-service'>
             <input type="checkbox" required name=''></input>
