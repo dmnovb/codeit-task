@@ -2,10 +2,10 @@ import { Navigate, Outlet } from 'react-router-dom';
 import data from '../data'
 
 const PrivateRoutes = () => {
-    let auth = data
+    let auth = data.token
     
     return (
-      auth.token ? <Outlet/> : <Navigate to='/'/>
+      auth ? <Outlet/> : <Navigate to='/'/>
     )
 }
 

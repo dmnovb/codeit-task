@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import { Navigate, redirect, useNavigate, Link} from 'react-router-dom';
 import Header from '../components/Header';
-import data from '../data'
+import changeTokenState from '../data'
 
 const SignUp = () => {
     const [email, setEmail] = useState('')
@@ -23,28 +23,21 @@ const SignUp = () => {
       setExistingUsers(a)
     }
     
+    
     useEffect(() => {
       let data = async () => {
         let a = await (await fetch(`${baseUrl}/countries`)).json();
         setCountries(a)
       }
       
-      data()
-      
-      for(let i = 0; i < existingUsers.length; i++){
-      if(email == existingUsers[i].email){
-        setIsTaken(true);
-      }
-    }
       if(isSignedUp){
-        data.changeState
+        changeTokenState.changeState()
         return navigate("/profile")
       }
+      data()
+      checkIfEmailTaken()
+    }, [isSignedUp, isTaken])
 
-    }, [isSignedUp])
-
-    
-    console.log(data.changeState)
     const submitObject = {
       email: email,
       name: name,
@@ -95,7 +88,7 @@ const SignUp = () => {
             <input type="checkbox" required name=''></input>
             <label id='checkbox' htmlFor="">Accept terms of service</label>
             </div>
-            <Link onClick={data.changeState} to={"/login"}>Log in if you already have an account.</Link>
+            <Link to={"/login"}>Log in if you already have an account.</Link>
         </form>
         </div>
     )

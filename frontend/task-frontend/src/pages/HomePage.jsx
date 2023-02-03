@@ -1,12 +1,13 @@
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
-
+import changeStateToken from '../data'
 const HomePage = () => {
     let retrievedData = localStorage.getItem( 'userInfo' )
     let user = JSON.parse(retrievedData);
     
     const clearCache = () => {
         localStorage.clear()
+        changeStateToken.token = false;
     }
     
     return (
