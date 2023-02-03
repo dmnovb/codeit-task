@@ -1,13 +1,36 @@
-import Header from "../components/Header";
-import { Link } from "react-router-dom";
-import changeStateToken from '../data'
-const HomePage = () => {
-    let retrievedData = localStorage.getItem( 'userInfo' )
-    let user = JSON.parse(retrievedData);
-    
-    const clearCache = () => {
-        localStorage.clear()
-        changeStateToken.token = false;
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+const HomePage = () => {    
+    const baseUrl = 'http://localhost:3000'
+    const [user, setUser] = useState({}) 
+    let navigate = useNavigate()
+
+    useEffect(() => {
+        let user = JSON.parse(localStorage.getItem('userInfo'))
+        setUser(user)
+    },[])
+   
+    const clearCache = (e) => {
+      
+        e.preventDefault()
+        let cache = JSON.parse(localStorage.getItem('userInfo'))
+     
+        console.log(cache)
+        let submitObject = {
+            userId: cache.userId
+        }
+        
+        fetch(`${baseUrl}/logout`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(submitObject)
+          }).then(() => {
+            localStorage.clear()
+            navigate("/")
+          }).catch((err) => {
+            console.log(err)
+          });
     }
     
     return (

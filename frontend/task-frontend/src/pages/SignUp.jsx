@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react';
-import { Navigate, redirect, useNavigate, Link} from 'react-router-dom';
-import Header from '../components/Header';
-import changeTokenState from '../data'
+import {useNavigate, Link} from 'react-router-dom';
+ 
 
 const SignUp = () => {
     const [email, setEmail] = useState('')
@@ -10,34 +9,20 @@ const SignUp = () => {
     const [dateOfBirthState, setDateOfBirthState] = useState('')
     const [selectedCountry, setSelectedCountry] = useState('Bulgaria')
     const [countries, setCountries] = useState([]);
-    const [isSignedUp, setIsSignedUp] = useState(false)
-    const [existingUsers, setExistingUsers] = useState([])
-    const [isTaken, setIsTaken] = useState(false); 
+    const [isEmailTaken, setIsEmailTaken] = useState(false); 
     
     const navigate = useNavigate();
     
     const baseUrl = 'http://localhost:3000'
-    
-    const checkIfEmailTaken = async () => {
-      let a = await (await fetch(`${baseUrl}/users`)).json();
-      setExistingUsers(a)
-    }
-    
-    
-    useEffect(() => {
-      let data = async () => {
-        let a = await (await fetch(`${baseUrl}/countries`)).json();
-        setCountries(a)
-      }
       
-      if(isSignedUp){
-        changeTokenState.changeState()
-        return navigate("/profile")
+    useEffect(() => {
+      let getAvailableCountries = async () => {
+        let availableCountries = await (await fetch(`${baseUrl}/countries`)).json();
+        setCountries(availableCountries)
       }
-      data()
-      checkIfEmailTaken()
-    }, [isSignedUp, isTaken])
-
+      getAvailableCountries()
+    }, [])
+    
     const submitObject = {
       email: email,
       name: name,
@@ -53,22 +38,29 @@ const SignUp = () => {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(submitObject),
-      })
-      setIsSignedUp(true)
+      }).then((response => {
+        if(response.status == 200){
+            response.json().then((data) => { 
+            localStorage.setItem('userInfo', JSON.stringify({
+                  userId : data.id, 
+                  name: submitObject.name, 
+                  email: submitObject.email
+                }
+            ))
+            navigate("/profile")
+          })
+        } else {
+          setIsEmailTaken(true)
+        }
+      }))
     }
-
-    var localStorageInfo = { 'name': name, 'email': email};
-
- 
-    localStorage.setItem('userInfo', JSON.stringify(localStorageInfo));
-
 
     return (
     <div className='container'>
         <form className='form' onSubmit={handleSubmit}>
             <label htmlFor="">Email</label>
             <input id='text-box' pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" type="email" value={email} onChange={(e) => setEmail(e.target.value) } required/>
-            {isTaken && <p className='taken-email'>Email is taken</p>}
+            {isEmailTaken && <p className='taken-email'>Email is taken</p>}
             <label htmlFor="">Name</label>
             <input id='text-box' type="text" value={name} onChange={(e) => setName(e.target.value)}  required/>
             <label htmlFor="">Password</label>
