@@ -1,0 +1,6 @@
+{
+    "host": "localhost",
+    "user": "root",
+    "password": "your_current_password",
+    "database": "taskDB"
+}
