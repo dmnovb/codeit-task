@@ -16,7 +16,7 @@ const HomePage = () => {
         e.preventDefault()
         let cache = JSON.parse(localStorage.getItem('userInfo'))
      
-        console.log(cache)
+
         let submitObject = {
             userId: cache.userId
         }

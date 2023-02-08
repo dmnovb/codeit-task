@@ -15,8 +15,13 @@ function stringToHashConversion(string) {
 
 exports.getAllUsers = async (req, res, next) => {
     try {
-        const [allUsers] = await User.fetchAll();
-        res.status(200).json(allUsers)
+        db.execute('SELECT * FROM users', (err, result) => {
+           if(err) {
+                throw err;
+           }
+
+            res.send(result)
+        })
     }
     catch (err){
         if(!err.statusCode){
@@ -27,32 +32,26 @@ exports.getAllUsers = async (req, res, next) => {
 };
 
 exports.createUser = async (req, res, next) => {
-    try {
-        let query = `SELECT singup(?,?,?,?,?,?) as userId`
-        let hashedPassword = stringToHashConversion(req.body.password).toString()
-        db.query(query, [req.body.name, req.body.email, hashedPassword, req.body.country, req.body.dateOfBirth, Date.now()], (err, row, field) => {
-            if(err) {
-                throw err
-            }
-        
-            if(row[0].userId == 0) {
-                res.status(400).send({Message: "Email is already taken."})
-            } else {
-                let resp = { id: row[0].userId}
-                res.send(resp)
-            }
+    let query = `SELECT singup(?,?,?,?,?,?) as userId`
+    let hashedPassword = stringToHashConversion(req.body.password).toString()
+    
+    db.query(query, [req.body.name, req.body.email, hashedPassword, req.body.country, req.body.dateOfBirth, Date.now()], (err, row, field) => {
+        if(err) {
+            throw err
+                }
+                if(row[0].userId == 0) {
+                                res.status(400).send({Message: "Email is already taken."})
+                            } else {
+                                let resp = { id: row[0].userId}
+                                res.send(resp)
+                            }
+
     })
-    }
-    catch(err) {
-        
-    }
 }
 
 exports.logoutUser = async (req, res) => {
-    console.log("calling logout")
-    console.log(req.body)
     let sql = `UPDATE login SET isLoggedIn = 0 WHERE userId = ?`
-    db.query(sql, [req.body.userId], (err, row, field) => {
+    db.query(sql, [req.body.userId], (err) => {
         if(err) {
             throw err
         }
@@ -77,7 +76,6 @@ exports.loginUser = async (req, res) => {
             sql = `SELECT id, name, email FROM users WHERE id = ?`
           
             db.query(sql, userId, (err, row, field) => {
-                console.log(row)
                  let resp = {  
                                 id: row[0].id,
                                 name: row[0].name,

@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import {useNavigate, Link} from 'react-router-dom';
+
  
 
 const SignUp = () => {
@@ -33,7 +34,7 @@ const SignUp = () => {
 
     const handleSubmit = (e) => {
     e.preventDefault();
-      console.log(`${baseUrl}/users`)
+
       fetch(`${baseUrl}/users`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},

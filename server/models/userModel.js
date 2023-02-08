@@ -9,8 +9,4 @@ module.exports = class User {
         this.country = country
         this.dateOfBirth = dateOfBirth
     }
-
-    static fetchAll() {
-        return db.execute('SELECT * FROM users')
-    }
 }
